@@ -60,7 +60,17 @@
         <li>Check the Bootstrap 3 checkbox in the upper left and change the &lt;button&gt; elements to use &lt;div class="btn btn-primary"&gt; instead</li>
     </ul>
 
-    <script type="text/javascript">//<![CDATA[
+ <script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: "4a9m1pw0"
+      }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
 
 
 
