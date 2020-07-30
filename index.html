@@ -20,19 +20,43 @@
 
 </head>
 <body>
-    <table>
-        <tbody>
-            <tr>
-              <td><h3>Widgeteer Speed: <span id="widgeteer-speed">0</span> /sec</h3></td>
-            </tr>
+  <div ><p>Widgeteer Speed: <span id="widgeteer-speed">0</span> /sec</p></td>
+        <td style="width: 30%;"></td>
+  </div>
+  <div style="float: left;
+  height: 5.5em;
+  width: 30%;
+  padding: 0 0px;">
+    <p>Novice Widgeteers: Owned: <span style="height:auto;" id="novice-widgeteer-count">0</span> Speed: 
+      <span style="height:auto;" id="novice-widgeteer-speed">0</span> </p>
+    <p>Master Widgeteers: Owned: <span style="height:auto;" id="master-widgeteer-count">0</span> Speed: 
+        <span style="height:auto;" id="master-widgeteer-speed">0</span> </p>
+    <p>Expert Widgeteers: Owned: <span style="height:auto;" id="expert-widgeteer-count">0</span> Speed: 
+          <span style="height:auto;" id="expert-widgeteer-speed">0</span> </p>
+  </div>
+  <div style="float: left;
+  height: 5.5em;
+  width: 30%;
+  padding: 0 0px;">
+    <p>Novice Dodadeers: Owned: <span style="height:auto;" id="novice-dodadeer-count">0</span> Speed: 
+      <span style="height:auto;" id="novice-widgeteer-speed">0</span> </p>
+    <p>Master Dodadeers: Owned: <span style="height:auto;" id="master-dodadeer-count">0</span> Speed: 
+        <span style="height:auto;" id="master-widgeteer-speed">0</span> </p>
+    <p>Expert Dodadeers: Owned: <span style="height:auto;" id="expert-dodadeer-count">0</span> Speed: 
+          <span style="height:auto;" id="expert-widgeteer-speed">0</span> </p>
+  </div>
+  <div style="float: left;
+  height: 5.5em;
+  width: 40%;
+  padding: 0 0px;"></div>
+ <div>
+            <table>
             <tr>
                 <td><h1>Widgets: <span id="widget-count">0</span></h1></td>
-                <td><span></span></td>
                 <td><h1>Dodads: <span id="dodad-count">0</span></h1></td>
             </tr>
             <tr>
                 <td><button id="produce-widget">Produce Widget</button></td>
-                <td><span></span></td>
                 <td><button id="produce-dodad">Produce Dodad</button></td>
             </tr>
             <tr>
@@ -40,16 +64,22 @@
             </tr>
             <tr>
                 <td><button id="novice-widgeteer" disabled="">Hire Novice Widgeteer - 100</button></td>
-                <td><span></span></td>
                 <td><button id="novice-dodadeer" disabled="">Hire Novice Dodadeer - 100</button></td>
+                <td>Owned: <span id="novice-dodadeer-count">0</span></td>
             </tr>
             <tr>
                 <td><button id="master-widgeteer" disabled="">Hire Master Widgeteer - 250</button></td>
-                <td><span></span></td>
                 <td><button id="master-dodadeer" disabled="">Hire Master Dodadeer - 250</button></td>
+                <td>Owned: <span id="master-dodadeer-count">0</span></td>
+            </tr>
+            <tr>
+              <td><button id="expert-widgeteer" disabled="">Hire Expert Widgeteer - 2500</button></td>
+              <td><button id="expert-dodadeer" disabled="">Hire Expert Dodadeer - 2500</button></td>
+              <td>Owned: <span id="expert-dodadeer-count">0</span></td>
             </tr>
         </tbody>
     </table>
+  </div>
 
     <h2>Coding exercises:</h2>
 
