@@ -16,154 +16,54 @@
   </style>
 
   <script id="insert"></script>
-
+  <script type="text/javascript" src="widgets.js"/>
 
 </head>
 <body>
     <table>
-<tbody><tr>
-  <td><h1>Widgets: <span id="widget-count">0</span></h1></td>
-  <td><span></span></td>
-  <td><h1>Dodads: <span id="dodad-count">0</span></h1></td>
-</tr>
-<tr>
-  <td><button id="produce-widget">Produce Widget</button></td>
-  <td><span></span></td>
-  <td><button id="produce-dodad">Produce Dodad</button></td>
-</tr>
+        <tbody>
+            <tr>
+                <td><h1>Widgets: <span id="widget-count">0</span></h1></td>
+                <td><span></span></td>
+                <td><h1>Dodads: <span id="dodad-count">0</span></h1></td>
+            </tr>
+            <tr>
+                <td><button id="produce-widget">Produce Widget</button></td>
+                <td><span></span></td>
+                <td><button id="produce-dodad">Produce Dodad</button></td>
+            </tr>
+            <tr>
+                <td><h2>Store:</h2></td>
+            </tr>
+            <tr>
+                <td><button id="novice-widgeteer" disabled="">Hire Novice Widgeteer - 100</button></td>
+                <td><span></span></td>
+                <td><button id="novice-dodadeer" disabled="">Hire Novice Dodadeer - 100</button></td>
+            </tr>
+            <tr>
+                <td><button id="master-widgeteer" disabled="">Hire Master Widgeteer - 250</button></td>
+                <td><span></span></td>
+                <td><button id="master-dodadeer" disabled="">Hire Master Dodadeer - 250</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Coding exercises:</h2>
 
 
-
-
-<tr><td><h2>Store:</h2></td></tr>
-<tr>
-  <td><button id="novice-widgeteer" disabled="">Hire Novice Widgeteer - 100</button></td>
-  <td><span></span></td>
-  <td><button id="novice-dodadeer" disabled="">Hire Novice Dodadeer - 100</button></td>
-</tr>
-<tr>
-  <td><button id="master-widgeteer" disabled="">Hire Master Widgeteer - 250</button></td>
-  <td><span></span></td>
-  <td><button id="master-dodadeer" disabled="">Hire Master Dodadeer - 250</button></td>
- </tr>
-</tbody></table>
-<h2>Coding exercises:</h2>
-
-<ul>
-    <li>Change the starting costs and see how it affects the game</li>
-    <li>Add two more levels of widgeteers</li>
-    <li>Add stats near the top showing widgets per second and the number of widgeteers of each type</li>
-    <li>Add an upgrades section</li>
-    <li>Add save/load buttons that use localStorage.setItem() and localStorage.getItem()</li>
-    <li>Check the Bootstrap 3 checkbox in the upper left and change the &lt;button&gt; elements to use &lt;div class="btn btn-primary"&gt; instead</li>
-</ul>
+    <ul>
+        <li>Change the starting costs and see how it affects the game</li>
+        <li>Add two more levels of widgeteers</li>
+        <li>Add stats near the top showing widgets per second and the number of widgeteers of each type</li>
+        <li>Add an upgrades section</li>
+        <li>Add save/load buttons that use localStorage.setItem() and localStorage.getItem()</li>
+        <li>Check the Bootstrap 3 checkbox in the upper left and change the &lt;button&gt; elements to use &lt;div class="btn btn-primary"&gt; instead</li>
+    </ul>
 
     <script type="text/javascript">//<![CDATA[
 
 
-// Basic variable declaration - keep track of how many of each
-// item we currently own, and how much the new ones should cost.
-var numWidgets = 0;
-var numDodads = 0;
-var numNoviceWidgeteers = 0;
-var numMasterWidgeteers = 0;
-var noviceWidgeteerCost = 100;
-var masterWidgeteerCost = 250;
-var numNoviceDodadeers = 0;
-var numMasterDodadeers = 0;
-var noviceDodadeerCost = 100;
-var masterDodadeerCost = 250;
 
-// Increase numWidgets every time produce-widget is clicked
-$('#produce-widget').on('click', function () {
-    numWidgets++;
-});
-
-// Increase numDodads every time produce-dodad is clicked
-$('#produce-dodad').on('click', function(){
-		numDodads++;
-})
-
-// Same for novice-widgeteer
-$('#novice-widgeteer').on('click', function () {
-    numNoviceWidgeteers++;
-
-    // Deduct cost
-    numWidgets -= noviceWidgeteerCost;
-
-    // Increase cost for the next one, using Math.ceil() to round up
-    noviceWidgeteerCost = Math.ceil(noviceWidgeteerCost * 1.1);
-});
-
-// Same for novice-widgeteer
-$('#novice-dodadeer').on('click', function () {
-    numNoviceDodadeers++;
-
-    // Deduct cost
-    numDodads -= noviceDodadeerCost;
-
-    // Increase cost for the next one, using Math.ceil() to round up
-    noviceDodadeerCost = Math.ceil(noviceDodadeerCost * 1.1);
-});
-
-// Ditto for master-widgeteer... you get the idea
-$('#master-widgeteer').on('click', function () {
-    numMasterWidgeteers++;
-    numWidgets -= masterWidgeteerCost;
-    masterWidgeteerCost = Math.ceil(masterWidgeteerCost * 1.1);
-});
-
-// Run UI update code every 10ms
-window.setInterval(function () {
-    // Novices add 1 per second (1/100 every 10ms)
-    numWidgets += (numNoviceWidgeteers * 1 / 100);
-
-    // Masters add 5 per second (5/100 every 10ms)
-    numWidgets += (numMasterWidgeteers * 5 / 100);
-
-    // Novices add .1 per second (1/1000 every 10ms)
-    numDodads += (numNoviceDodadeers * 1 / 1000);
-
-    // Masters add .5 per second (5/1000 every 10ms)
-    numDodads += (numMasterDodadeers * 5 / 1000);
-
-    // Update the text showing how many widgets we have, using Math.floor() to round down
-    $('#widget-count').text(Math.floor(numWidgets));
-
-    // Update the text showing how many widgets we have, using Math.floor() to round down
-    $('#dodad-count').text(Math.floor(numDodads));
-
-    // Update the widgeteers with their current prices
-    $('#novice-widgeteer').text('Hire Novice Widgeteer - ' + noviceWidgeteerCost);
-    $('#master-widgeteer').text('Hire Master Widgeteer - ' + masterWidgeteerCost);
-
-    // Enable/disable the widgeteer buttons based on our numWidgets
-    $('#novice-widgeteer').prop('disabled', noviceWidgeteerCost > numWidgets);
-    $('#master-widgeteer').prop('disabled', masterWidgeteerCost > numWidgets);
-
-    // Update the widgeteers with their current prices
-    $('#novice-dodadeer').text('Hire Novice Dodadeer - ' + noviceDodadeerCost);
-    $('#master-dodadeer').text('Hire Master Dodadeer - ' + masterDodadeerCost);
-
-    // Enable/disable the widgeteer buttons based on our numWidgets
-    $('#novice-dodadeer').prop('disabled', noviceDodadeerCost > numDodads);
-    $('#master-dodadeer').prop('disabled', masterDodadeerCost > numDodads);
-}, 10);
-
-
-  //]]></script>
-
-  <script>
-    // tell the embed parent frame the height of the content
-    if (window.parent && window.parent.parent){
-      window.parent.parent.postMessage(["resultsFrame", {
-        height: document.body.getBoundingClientRect().height,
-        slug: "4a9m1pw0"
-      }], "*")
-    }
-
-    // always overwrite window.name, in case users try to set it manually
-    window.name = "result"
   </script>
 
 
