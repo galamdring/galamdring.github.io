@@ -2,29 +2,35 @@
 // item we currently own, and how much the new ones should cost.
 var numWidgets = 0;
 var numDodads = 0;
+
 var numNoviceWidgeteers = 0;
 var numMasterWidgeteers = 0;
+var numExpertWidgeteers = 0;
 var noviceWidgeteerCost = 100;
 var masterWidgeteerCost = 250;
+var expertWidgeteerCost = 1000;
+
 var numNoviceDodadeers = 0;
 var numMasterDodadeers = 0;
 var noviceDodadeerCost = 100;
 var masterDodadeerCost = 250;
+
 var widgeteerSpeed = 0;
 var dodadeerSpeed = 0;
 
+$(document).ready(function(){
 // Increase numWidgets every time produce-widget is clicked
-$('#produce-widget').on('click', function () {
+$('#produce-widget').off("click").on('click', function () {
     numWidgets++;
 });
 
 // Increase numDodads every time produce-dodad is clicked
-$('#produce-dodad').on('click', function(){
+$('#produce-dodad').off("click").on('click', function(){
     numDodads++;
 })
 
 // Same for novice-widgeteer
-$('#novice-widgeteer').on('click', function () {
+$('#novice-widgeteer').off("click").on('click', function () {
     numNoviceWidgeteers++;
 
     // Deduct cost
@@ -32,10 +38,13 @@ $('#novice-widgeteer').on('click', function () {
 
     // Increase cost for the next one, using Math.ceil() to round up
     noviceWidgeteerCost = Math.ceil(noviceWidgeteerCost * 1.1);
+
+    // Set the speed of the widgeteers for display
+    widgeteerSpeed = numNoviceWidgeteers * 1 + numMasterWidgeteers * 5 + numExpertWidgeteers * 25;
 });
 
 // Same for novice-widgeteer
-$('#novice-dodadeer').on('click', function () {
+$('#novice-dodadeer').off("click").on('click', function () {
     numNoviceDodadeers++;
 
     // Deduct cost
@@ -46,10 +55,12 @@ $('#novice-dodadeer').on('click', function () {
 });
 
 // Ditto for master-widgeteer... you get the idea
-$('#master-widgeteer').on('click', function () {
+$('#master-widgeteer').off("click").on('click', function () {
     numMasterWidgeteers++;
     numWidgets -= masterWidgeteerCost;
     masterWidgeteerCost = Math.ceil(masterWidgeteerCost * 1.1);
+    // Set the speed of the widgeteers for display
+    widgeteerSpeed = numNoviceWidgeteers * 1 + numMasterWidgeteers * 5 + numExpertWidgeteers * 25;
 });
 
 // Run UI update code every 10ms
@@ -72,6 +83,9 @@ window.setInterval(function () {
     // Update the text showing how many widgets we have, using Math.floor() to round down
     $('#dodad-count').text(Math.floor(numDodads));
 
+    // Update the text showing the speed of the widgeteers, rounding down.
+    $('#widgeteer-speed').text(Math.floor(widgeteerSpeed));
+
     // Update the widgeteers with their current prices
     $('#novice-widgeteer').text('Hire Novice Widgeteer - ' + noviceWidgeteerCost);
     $('#master-widgeteer').text('Hire Master Widgeteer - ' + masterWidgeteerCost);
@@ -90,4 +104,4 @@ window.setInterval(function () {
 }, 10);
 
 
- 
+})
