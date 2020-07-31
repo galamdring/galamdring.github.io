@@ -127,6 +127,9 @@ window.setInterval(function () {
     $('#master-widgeteer-speed').text(Math.floor(numMasterWidgeteers * 5))
     $('#expert-widgeteer-speed').text(Math.floor(numExpertWidgeteers * 25))
 
+    $('#dodadeer-speed').text(Math.floor(dodadeerSpeed));
+    $('#novice-dodadeer-speed').text(numNoviceDodadeers *1);
+
     // Update the widgeteers with their current prices
     $('#novice-widgeteer').text('Hire Novice Widgeteer - ' + noviceWidgeteerCost);
     $('#master-widgeteer').text('Hire Master Widgeteer - ' + masterWidgeteerCost);
