@@ -16,50 +16,55 @@
   </style>
 
   <script id="insert"></script>
-  <script type="text/javascript" src="js/widgets.js"></script>
+  
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 </head>
 <body style="width: 100%;">
 
-  <div style="float: left;
-  height: 5.5em;
-  width: 45%;
-  padding: 0 5px;
-  ">
-  <h3 style="text-align: center;">Widgeteer Speed: <span id="widgeteer-speed">0</span> /sec</h3>
-          <h1>Widgets: <span id="widget-count">0</span></h1>
-          <button id="produce-widget">Produce Widget</button><br><br>
-          <p style="font-size: large; font-weight: bold;">Hire Widgeteers</p>
-          <p>Novice <button id="novice-widgeteer-1" disabled="">1 - 100</button> <button id="novice-widgeteer-10" disabled="">10 - 1000</button>
-            Owned: <span style="height:auto;" id="novice-widgeteer-count">0</span> 
-            Speed: <span style="height:auto;" id="novice-widgeteer-speed">0</span>  /sec</p>
-            <p>Master <button id="master-widgeteer-1" disabled="">1 - 250</button> Owned: <span style="height:auto;" id="master-widgeteer-count">0</span> Speed: 
-              <span style="height:auto;" id="master-widgeteer-speed">0</span> /sec</p>
-          <p>Expert <button id="expert-widgeteer-1" disabled="">1 - 2500</button> Owned: <span style="height:auto;" id="expert-widgeteer-count">0</span> Speed: 
-            <span style="height:auto;" id="expert-widgeteer-speed">0</span> /sec</p>
-  </div>
-  <div style="float: left;
-  height: 5.5em;
-  width: 5%;
-  padding: 0 5px;"></div>
-  <div style="float: left;
-  height: 5.5em;
-  width: 45%;
-  padding: 0 5px;">
-    <h3 style="text-align: center;">Dodadeer Speed: <span id="dodadeer-speed">0</span> /10 sec</h3>
-    <h4 style="height: 1.2em; margin: 0; text-align: center;">Dodadeers</h4>
-    <p>Novice: Owned: <span style="height:auto;" id="novice-dodadeer-count">0</span> Speed: 
-      <span style="height:auto;" id="novice-dodadeer-speed">0</span> /10 sec</p>
-    <p>Master: Owned: <span style="height:auto;" id="master-dodadeer-count">0</span> Speed: 
-        <span style="height:auto;" id="master-dodadeer-speed">0</span> /10 sec</p>
-    <p>Expert: Owned: <span style="height:auto;" id="expert-dodadeer-count">0</span> Speed: 
-          <span style="height:auto;" id="expert-dodadeer-speed">0</span> /10 sec</p>
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s3"><a href="#widgets">Widgets</a></li>
+        <li class="tab col s3"><a href="#dodads">Dodads</a></li>
+      </ul>
+    </div>
+  
+    <div id="widgets">
+    <h3 style="text-align: center;">Widgeteer Speed: <span id="widgeteer-speed">0</span> /sec</h3>
+            <h1>Widgets: <span id="widget-count">0</span></h1>
+            <button id="produce-widget">Produce Widget</button><br><br>
+            <p style="font-size: large; font-weight: bold;">Hire Widgeteers</p>
+            <p>Novice <button id="novice-widgeteer-1" disabled="">1 - 100</button> <button id="novice-widgeteer-10" disabled="">10 - 1593</button>
+              Owned: <span style="height:auto;" id="novice-widgeteer-count">0</span> 
+              Speed: <span style="height:auto;" id="novice-widgeteer-speed">0</span>  /sec</p>
+              <p>Master <button id="master-widgeteer-1" disabled="">1 - 250</button><button id="master-widgeteer-10" disabled="">10 - 250</button> Owned: <span style="height:auto;" id="master-widgeteer-count">0</span> Speed: 
+                <span style="height:auto;" id="master-widgeteer-speed">0</span> /sec</p>
+            <p>Expert <button id="expert-widgeteer-1" disabled="">1 - 2500</button> Owned: <span style="height:auto;" id="expert-widgeteer-count">0</span> Speed: 
+              <span style="height:auto;" id="expert-widgeteer-speed">0</span> /sec</p>
+    </div>
+    <div id="dodads">
+      <h3 style="text-align: center;">Dodadeer Speed: <span id="dodadeer-speed">0</span> /10 sec</h3>
+      <h4 style="height: 1.2em; margin: 0; text-align: center;">Dodadeers</h4>
+      <p>Novice: Owned: <span style="height:auto;" id="novice-dodadeer-count">0</span> Speed: 
+        <span style="height:auto;" id="novice-dodadeer-speed">0</span> /10 sec</p>
+      <p>Master: Owned: <span style="height:auto;" id="master-dodadeer-count">0</span> Speed: 
+          <span style="height:auto;" id="master-dodadeer-speed">0</span> /10 sec</p>
+      <p>Expert: Owned: <span style="height:auto;" id="expert-dodadeer-count">0</span> Speed: 
+            <span style="height:auto;" id="expert-dodadeer-speed">0</span> /10 sec</p>
 
-          <h1>Dodads: <span id="dodad-count">0</span></h1>
-          <button id="produce-dodad">Produce Dodad</button><br><br>
-          <button id="novice-dodadeer" disabled="">Hire Novice Dodadeer - 100</button><br>
-          <button id="master-dodadeer" disabled="">Hire Master Dodadeer - 250</button><br>
-          <button id="expert-dodadeer" disabled="">Hire Expert Dodadeer - 2500</button><br>
+            <h1>Dodads: <span id="dodad-count">0</span></h1>
+            <button id="produce-dodad">Produce Dodad</button><br><br>
+            <button id="novice-dodadeer" disabled="">Hire Novice Dodadeer - 100</button><br>
+            <button id="master-dodadeer" disabled="">Hire Master Dodadeer - 250</button><br>
+            <button id="expert-dodadeer" disabled="">Hire Expert Dodadeer - 2500</button><br>
+    </div>
   </div>
 <!--<div>
     <h2>Coding exercises:</h2>
@@ -92,5 +97,7 @@
 
 
 
-
+<!--JavaScript at end of body for optimized loading-->
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/widgets.js"></script>
 </body></html>
