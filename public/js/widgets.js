@@ -1,59 +1,98 @@
 // Basic variable declaration - keep track of how many of each
 // item we currently own, and how much the new ones should cost.
-var numWidgets = 1000000;
-var numDodads = 0;
+class Worker{
+    constructor(count, speed, purchased, setBonus, setSize, cost, costIncrease){
+        this.count = count;
+        this.speed = speed;
+        this.purchased = purchased;
+        this.setBonus = setBonus;
+        this.setSize = setSize;
+        this.cost = cost;
+        this.costIncrease = costIncrease;
+    }
 
-var numNoviceWidgeteers = 0;
-var noviceWidgeteerSpeed = 1;
-var numNoviceWidgeteersPurchased = 0;
-var noviceWidgeteer10Bonus = 1.2
-var noviceWidgeteerPriceTo10 = 0;
+    get priceToSet() {
+        numToSet = count % this.setSize;
+        priceToSet = 0;
+        currentPrice = this.cost;
+        for (i=0; i < numToSet; i++){
+            priceToSet+=currentPrice;
+            currentPrice*=this.costIncrease;
+        }
+        return numberForDisplay(priceToSet,2);
+    }
+}
+let data = {
+    widgeteers: {
+        novice: new Worker(
+            0, //count
+            1, //speed
+            0, //purchased
+            1.2, // setBonus
+            10, // setSize
+            100, //cost
+            1.1, //costIncrease
+        ),
+        master: new Worker (
+            0, //count
+            1.1, //speed
+            0, //purchased
+            1.2, // setBonus
+            10, // setSize
+            250, //cost
+            1.1, //costIncrease
+        ),
+        expert: new Worker(
+            0, //count
+            1.1, //speed
+            0, //purchased
+            1.2, // setBonus
+            10, // setSize
+            2500, //cost
+            1.1, //costIncrease
+        ),
+        speed: 0,
+        interval: 100,
+    },
+    dodadeers: {
+        numNovices: 0,
+        noviceSpeed: 1,
+        numNovicesPurchased: 0,
+        novice10Bonus: 1.2,
+        novicePriceTo10: 0,        
+        numMasters: 0,
+        masterSpeed: 1.1,
+        numExperts: 0,
+        expertSpeed: 1.1,
+        noviceCost: 100,
+        masterCost: 250,
+        expertCost: 2500,
+        speed: 0,
+        costIncrease: 1.1,
+        interval: 1000,
+    },
+    numWidgets: 0,
+    numDodads: 0,
 
-var numMasterWidgeteers = 0;
-var masterWidgeteerSpeed = 1.1;
+}
 
-var numExpertWidgeteers = 0;
-var expertWidgeteerSpeed = 1.1;
-
-var noviceWidgeteerCost = 100;
-var masterWidgeteerCost = 250;
-var expertWidgeteerCost = 2500;
-
-var numNoviceDodadeers = 0;
-var noviceDodadeerSpeed = 1;
-var numMasterDodadeers = 0;
-var masterDodadeerSpeed = 5;
-var numExpertDodadeers = 0;
-var expertDodadeerSpeed = 25;
-var noviceDodadeerCost = 100;
-var masterDodadeerCost = 250;
-var expertDodadeerCost = 2500;
-
-var widgeteerSpeed = 0;
-var dodadeerSpeed = 0;
-
-var widgeteerCostIncrease = 1.1;
-var dodadeerCostIncrease = 1.1;
-
-var widgeteerInterval = 100;
-var dodadeerInterval = 1000;
 
 $(document).ready(function(){
-    noviceWidgeteerPriceTo10 = numberForDisplay(calculatePriceTo10(10,noviceWidgeteerCost, widgeteerCostIncrease),2)
-    $('#novice-widgeteer-10').text([10, noviceWidgeteerPriceTo10].join(' - '));
+    $('#novice-widgeteer-10').text([10, data.widgeteers.novice.priceToSet].join(' - '));
+    
     // Increase numWidgets every time produce-widget is clicked
     $('#produce-widget').off("click").on('click', function () {
-        numWidgets++;
+        data.numWidgets++;
     });
 
     // Increase numDodads every time produce-dodad is clicked
     $('#produce-dodad').off("click").on('click', function(){
-        numDodads++;
+        data.numDodads++;
     })
 
     // Same for novice-widgeteer
     $('#novice-widgeteer-1').off("click").on('click', function () {
-        numNoviceWidgeteers++;
+        data.widgeteers.numNovices++;
         numNoviceWidgeteersPurchased++;
         // update the ui with how many we own.
         $('#novice-widgeteer-count').text(Math.round(numNoviceWidgeteers));
