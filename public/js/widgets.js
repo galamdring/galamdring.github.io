@@ -243,12 +243,10 @@ $(document).ready(function(){
         let sinceLastRun = Date.now()-lastRun;
         let widgetSinceLastRun = data.numWidgets - widgetsLastRun;
         let speedThisRun = widgetSinceLastRun/sinceLastRun * 1000;
-        if(speedThisRun > 0) {
-            if (speedLastRuns.length >10){
-                speedLastRuns.shift();
-            }
-            speedLastRuns.push(speedThisRun);
+        if (speedLastRuns.length >10){
+            speedLastRuns.shift();
         }
+        speedLastRuns.push(speedThisRun);
         let average = (array) => array.reduce((a, b) => a+b) / array.length;
         let averageSpeed = speedLastRuns.length > 0 ? Math.round(average(speedLastRuns)) : 0;
 
