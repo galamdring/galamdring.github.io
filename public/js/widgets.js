@@ -204,6 +204,13 @@ $(document).ready(function(){
     $('#master-widgeteer-1').off("click").on('click', function () {
         data.widgeteers.master.purchase(1);
         $('#master-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.master.cost,2));
+        $('#master-widgeteer-10').text([data.widgeteers.master.countToSet, numberForDisplay(data.widgeteers.master.priceToSet,2)].join(' - ')); 
+    });
+
+    $('#master-widgeteer-10').off("click").on('click', function () {
+        data.widgeteers.master.purchaseNextSet();
+        $('#master-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.master.cost,2));
+        $('#master-widgeteer-10').text([data.widgeteers.master.countToSet, numberForDisplay(data.widgeteers.master.priceToSet,2)].join(' - '));
     });
 
     $('#master-dodadeer').off("click").on("click", function(){
@@ -215,6 +222,12 @@ $(document).ready(function(){
     $('#expert-widgeteer-1').off("click").on('click', function () {
         data.widgeteers.expert.purchase(1);
         $('#expert-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.expert.cost,2));
+        $('#expert-widgeteer-10').text([data.widgeteers.expert.countToSet, numberForDisplay(data.widgeteers.expert.priceToSet,2)].join(' - '));
+    });
+    $('#expert-widgeteer-10').off("click").on('click', function () {
+        data.widgeteers.expert.purchaseNextSet();
+        $('#expert-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.expert.cost,2));
+        $('#expert-widgeteer-10').text([data.widgeteers.expert.countToSet, numberForDisplay(data.widgeteers.expert.priceToSet,2)].join(' - '));
     });
 
     $('#expert-dodadeer').off("click").on("click", function(){
@@ -273,6 +286,7 @@ $(document).ready(function(){
         $('#novice-widgeteer-1').prop('disabled', data.widgeteers.novice.cost > data.numWidgets);
         $('#novice-widgeteer-10').prop('disabled', data.widgeteers.novice.priceToSet > data.numWidgets )
         $('#master-widgeteer-1').prop('disabled', data.widgeteers.master.cost > data.numWidgets || data.widgeteers.novice.count < 10);
+        $('#master-widgeteer-10').prop('disabled', data.widgeteers.master.priceToSet > data.numWidgets || data.widgeteers.novice.count < 10)
         $('#expert-widgeteer-1').prop('disabled', data.widgeteers.expert.cost > data.numWidgets || data.widgeteers.master.count < 10);
 
     }, 100);
