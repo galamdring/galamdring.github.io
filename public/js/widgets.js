@@ -250,7 +250,7 @@ $(document).ready(function(){
             speedLastRuns.push(speedThisRun);
         }
         let average = (array) => array.reduce((a, b) => a+b) / array.length;
-        let averageSpeed = Math.round(average(speedLastRuns));
+        let averageSpeed = speedLastRuns.length > 0 ? Math.round(average(speedLastRuns)) : 0;
 
         widgetsLastRun = data.numWidgets;
         lastRun = Date.now();
