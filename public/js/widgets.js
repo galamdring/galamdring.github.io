@@ -12,6 +12,23 @@ function chargeForType(type,cost){
             break;
     }
 }
+class AutoBuyerOptions{
+    constructor(enabled){
+        this.enabled = enabled;
+    }
+}
+let options = {
+    autobuyers: {
+        novice1: new AutoBuyerOptions(true),
+        novice10: new AutoBuyerOptions(true),
+        intermediate1: new AutoBuyerOptions(true),
+        intermediate10: new AutoBuyerOptions(true),
+        master1: new AutoBuyerOptions(true),
+        master10: new AutoBuyerOptions(true),
+        expert1: new AutoBuyerOptions(true),
+        expert10: new AutoBuyerOptions(true)
+    }
+}
 class Worker{
     constructor(type,count, speed, purchased, setBonus, setSize, cost, costIncrease, interval){
         this.type=type;
@@ -43,6 +60,9 @@ class Worker{
         chargeForType(this.type, this.priceToCount(count));
         // Increase cost for the next one, using Math.ceil() to round up
         this.cost = increasePrice(count,this.cost,this.costIncrease);
+        if(this.countToSet==this.setSize){
+            M.toast({html: 'Buying ' + this.setSize + ' gets you a bonus, currently '+ (this.purchased/this.setSize)*this.setBonus})
+        }
     }
 
     purchaseNextSet(){
@@ -107,26 +127,37 @@ let data = new dataClass(
             1.1, //costIncrease
             1000, // interval
         ),
-        master: new Worker (
+        intermediate: new Worker(
             'widget', // type
             0, //count
-            1.1, //speed
+            0.95, //speed
             0, //purchased
             1.2, // setBonus
             10, // setSize
             500, //cost
-            1.1, //costIncrease
+            1.15, //costIncrease
+            1000, // interval
+        ),
+        master: new Worker (
+            'widget', // type
+            0, //count
+            0.9, //speed
+            0, //purchased
+            1.2, // setBonus
+            10, // setSize
+            2500, //cost
+            1.2, //costIncrease
             1000, // interval
         ),
         expert: new Worker(
             'widget', // type
             0, //count
-            1.1, //speed
+            0.85, //speed
             0, //purchased
             1.2, // setBonus
             10, // setSize
-            2500, //cost
-            1.1, //costIncrease
+            50000, //cost
+            1.25, //costIncrease
             1000, // interval
         ),
         speed: 0,
@@ -148,7 +179,7 @@ let data = new dataClass(
         costIncrease: 1.1,
         interval: 1000,
     },
-    0, //numWidgets
+    1594, //numWidgets
     0, //numDodads
 )
 
@@ -158,7 +189,16 @@ var speedLastRuns = [];
 
 $(document).ready(function(){
     $('.tabs').tabs();
-    $('#novice-widgeteer-10').text([10, numberForDisplay(data.widgeteers.novice.priceToSet,2)].join(' - '));
+    // set initial pricing.
+    $('#novice-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.novice.cost,2));
+    $('#novice-widgeteer-10').text([data.widgeteers.novice.countToSet, numberForDisplay(data.widgeteers.novice.priceToSet,2)].join(' - '));
+    $('#intermediate-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.intermediate.cost,2));
+    $('#intermediate-widgeteer-10').text([data.widgeteers.intermediate.countToSet, 
+                                              numberForDisplay(data.widgeteers.intermediate.priceToSet,2)].join(' - '));  
+    $('#master-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.master.cost,2));
+    $('#master-widgeteer-10').text([data.widgeteers.master.countToSet, numberForDisplay(data.widgeteers.master.priceToSet,2)].join(' - '));
+    $('#expert-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.expert.cost,2));
+    $('#expert-widgeteer-10').text([data.widgeteers.expert.countToSet, numberForDisplay(data.widgeteers.expert.priceToSet,2)].join(' - '));
     
     // Increase numWidgets every time produce-widget is clicked
     $('#produce-widget').off("click").on('click', function () {
@@ -185,6 +225,23 @@ $(document).ready(function(){
         // update the ui with new pricing.
         $('#novice-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.novice.cost,2));
         $('#novice-widgeteer-10').text([data.widgeteers.novice.countToSet, numberForDisplay(data.widgeteers.novice.priceToSet,2)].join(' - ')); 
+    });
+    $('#intermediate-widgeteer-1').off("click").on('click', function () {
+        data.widgeteers.novice.purchase(1);
+
+        // update the ui with new pricing.
+        $('#intermediate-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.intermediate.cost,2));
+        $('#intermediate-widgeteer-10').text([data.widgeteers.intermediate.countToSet, 
+                                              numberForDisplay(data.widgeteers.intermediate.priceToSet,2)].join(' - ')); 
+    });
+
+    $('#intermediate-widgeteer-1').off("click").on('click', function () {
+        data.widgeteers.novice.purchaseNextSet();
+
+        // update the ui with new pricing.
+        $('#intermediate-widgeteer-1').text('1 - ' + numberForDisplay(data.widgeteers.intermediate.cost,2));
+        $('#intermediate-widgeteer-10').text([data.widgeteers.intermediate.countToSet, 
+                                              numberForDisplay(data.widgeteers.intermediate.priceToSet,2)].join(' - ')); 
     });
 
     // Same for novice-widgeteer
@@ -243,10 +300,12 @@ $(document).ready(function(){
         let sinceLastRun = Date.now()-lastRun;
         let widgetSinceLastRun = data.numWidgets - widgetsLastRun;
         let speedThisRun = widgetSinceLastRun/sinceLastRun * 1000;
-        if (speedLastRuns.length >10){
-            speedLastRuns.shift();
+        if (speedThisRun >= 0){
+            if (speedLastRuns.length >10){
+                speedLastRuns.shift();
+            }
+            speedLastRuns.push(speedThisRun);
         }
-        speedLastRuns.push(speedThisRun);
         let average = (array) => array.reduce((a, b) => a+b) / array.length;
         let averageSpeed = speedLastRuns.length > 0 ? Math.round(average(speedLastRuns)) : 0;
 
@@ -254,13 +313,15 @@ $(document).ready(function(){
         lastRun = Date.now();
 
         // Masters train 5 Novice Widgeteers per second (5/100 every 10ms)
-        data.widgeteers.novice.count += data.widgeteers.master.produce(sinceLastRun);
+        data.widgeteers.novice.count += data.widgeteers.intermediate.produce(sinceLastRun);
+        data.widgeteers.intermediate.count += data.widgeteers.master.produce(sinceLastRun);
         // Experts train 25 Master Widgeteers per second (25/100 every 10ms)
         data.widgeteers.master.count += data.widgeteers.expert.produce(sinceLastRun);
         // Novices add 1 per second (1/100 every 10ms)
         data.numWidgets += data.widgeteers.novice.produce(sinceLastRun);
 
         $('#novice-widgeteer-count').text(numberForDisplay(data.widgeteers.novice.count));
+        $('#intermediate-widgeteer-count').text(numberForDisplay(data.widgeteers.intermediate.count));
         $('#master-widgeteer-count').text(numberForDisplay(data.widgeteers.master.count));
         $('#expert-widgeteer-count').text(numberForDisplay(data.widgeteers.expert.count));
 
@@ -272,25 +333,62 @@ $(document).ready(function(){
         data.widgeteers.speed = averageSpeed; // I'm not sure if we need both, but here we are//
         $('#widgeteer-speed').text(numberForDisplay(Math.floor(data.widgeteers.speed),2));
         $('#novice-widgeteer-speed').text(numberForDisplay(data.widgeteers.novice.totalSpeed,2));
+        $('#intermediate-widgeteer-speed').text(numberForDisplay(data.widgeteers.intermediate.totalSpeed,2));
         $('#master-widgeteer-speed').text(numberForDisplay(data.widgeteers.master.totalSpeed,2));
         $('#expert-widgeteer-speed').text(numberForDisplay(data.widgeteers.expert.totalSpeed,2));
 
 
-        // Update the widgeteers with their current prices
+        // TODO: create a autobuyers page to control these.
+        if(options.autobuyers.novice1.enabled){
+            document.getElementById('novice-widgeteer-1').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.novice10.enabled){
+            document.getElementById('novice-widgeteer-10').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.intermediate1.enabled){
+            document.getElementById('intermediate-widgeteer-1').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.intermediate10.enabled){
+            document.getElementById('intermediate-widgeteer-10').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.master1.enabled){
+            document.getElementById('master-widgeteer-1').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.master10.enabled){
+            document.getElementById('master-widgeteer-10').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.expert1.enabled){
+            document.getElementById('expert-widgeteer-1').click();
+            setButtonsStatus()
+        }
+        if(options.autobuyers.expert10.enabled){
+            document.getElementById('expert-widgeteer-10').click();
+            setButtonsStatus()
+        }
         
+        setButtonsStatus();
         
-
-        // Enable/disable the widgeteer buttons based on our numWidgets
-        $('#novice-widgeteer-1').prop('disabled', data.widgeteers.novice.cost > data.numWidgets);
-        $('#novice-widgeteer-10').prop('disabled', data.widgeteers.novice.priceToSet > data.numWidgets )
-        $('#master-widgeteer-1').prop('disabled', data.widgeteers.master.cost > data.numWidgets || data.widgeteers.novice.count < 10);
-        $('#master-widgeteer-10').prop('disabled', data.widgeteers.master.priceToSet > data.numWidgets || data.widgeteers.novice.count < 10)
-        $('#expert-widgeteer-1').prop('disabled', data.widgeteers.expert.cost > data.numWidgets || data.widgeteers.master.count < 10);
-
     }, 100);
 
 
 })
+
+function setButtonsStatus(){
+    $('#novice-widgeteer-1').prop('disabled', data.widgeteers.novice.cost > data.numWidgets);
+    $('#novice-widgeteer-10').prop('disabled', data.widgeteers.novice.priceToSet > data.numWidgets )
+    $('#intermediate-widgeteer-1').prop('disabled', data.widgeteers.intermediate.cost > data.numWidgets || data.widgeteers.novice.count < 10);
+    $('#intermediate-widgeteer-10').prop('disabled', data.widgeteers.intermediate.priceToSet > data.numWidgets || data.widgeteers.novice.count < 10)
+    $('#master-widgeteer-1').prop('disabled', data.widgeteers.master.cost > data.numWidgets || data.widgeteers.intermediate.count < 10);
+    $('#master-widgeteer-10').prop('disabled', data.widgeteers.master.priceToSet > data.numWidgets || data.widgeteers.intermediate.count < 10)
+    $('#expert-widgeteer-1').prop('disabled', data.widgeteers.expert.cost > data.numWidgets || data.widgeteers.master.count < 10);
+    $('#expert-widgeteer-10').prop('disabled', data.widgeteers.expert.priceToSet > data.numWidgets || data.widgeteers.master.count < 10);
+}
 
 function numberForDisplay(number, numDecimal = 0){
     // TODO: Create an option to change this to other types. Maybe include a cancer notation IE Antimatter?

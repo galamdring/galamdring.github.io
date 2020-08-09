@@ -6,3 +6,27 @@ p {
   padding: 0px;
   margin: 0;
 }
+
+.labelDiv
+{
+  width:10%;
+  float:left;
+}
+
+.oneButtonDiv
+{
+  width:25%;
+  float:left;
+}
+
+.tenButtonDiv
+{
+  width:25%;
+  float:left;
+}
+
+.statsDiv
+{
+  width:25%;
+  float:left;
+}
